@@ -8,6 +8,7 @@ class ItemSet
   attr_accessor :array
   
   def count(transaction)
+    @count = 0
     transaction.each do |t|
       if (@array - t).empty?
         @count += 1
