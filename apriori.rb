@@ -1,6 +1,5 @@
 require 'pp'
 
-require_relative 'item_set'
 class Apriori
   def initialize(transactions, minsup)
     @transactions = transactions
@@ -55,13 +54,8 @@ class Apriori
       end
       k += 1
     end
-    puts "@c:"
     pp @c
-    puts "------------------------------------"
-    puts "@f:"
     pp @f
-    puts
-    @f
   end
 
   # Generates frequent itemsets
