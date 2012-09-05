@@ -1,7 +1,7 @@
 require_relative '../item_set'
 
 describe ItemSet do
-  before(:all) do
+  before :all do
     @transactions = [["Beef", "Chicken", "Milk"],
                     ["Beef", "Cheese"],
                     ["Cheese", "Boots"],

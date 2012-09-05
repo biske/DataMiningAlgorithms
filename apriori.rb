@@ -33,6 +33,7 @@ class Apriori
         value.support(@transactions) >= @minsup
       end
     end
+    @f
   end
 
   # Generates frequent itemsets
