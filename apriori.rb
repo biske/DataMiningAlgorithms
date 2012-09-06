@@ -13,7 +13,7 @@ class Apriori
     c = 0
     @transactions.each do |t|
       if (array - t).empty?
-      c += 1
+        c += 1
       end
     end
     c
@@ -43,7 +43,7 @@ class Apriori
     while !(@f[k-1].empty?)
       puts k
       @c[k] = Hash.new
-      @c[k] = candidate_gen(@f[k-1])
+      @c[k] = candidate_gen(@f[k-1], k)
       @f[k] = Hash.new
       @c[k].each do |key, value|
         c = count(key)
@@ -54,21 +54,26 @@ class Apriori
       end
       k += 1
     end
-    pp @c
+    @c.pop
+    @f.pop
     pp @f
   end
 
   # Generates frequent itemsets
-  def candidate_gen(frequent)
-    @c[frequent.size + 1] = Hash.new
+  def candidate_gen(frequent, k)
+    @c[k] = Hash.new
     frequent.each_key do |f1|
       frequent.each_key do |f2|
         if (f1[0..-2].eql? f2[0..-2]) && (f1.last < f2.last)
-          @c[frequent.size + 1].store((f1 | f2).sort, 0)
+          candidate = (f1 | f2).sort
+          @c[k].store(candidate, 0)
+          if !(candidate.combination(k).to_a - frequent.keys).empty?
+            @c[k].delete(candidate)
+          end
         end
       end
     end
-    @c[frequent.size + 1]
+    @c[k]
   end
 end
 
