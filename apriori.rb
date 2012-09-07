@@ -26,47 +26,46 @@ class Apriori
 
   # Apriori algorithm for generating frequent itemsets.
   def frequent
-    @c[0] = Hash.new
-    #itemset = Hash.new
+    @c[0] = Array.new
+    
     @transactions.flatten.uniq.sort.each do |t|
-      @c[0].store([t], 0)
+      @c[0].push([t])
     end
     @f[0] = Hash.new
-    @c[0].each do |key, value|
-      c = count(key)
+    @c[0].each do |elem|
+      c = count(elem)
       sup = support(c)
       if sup >= @minsup
-      @f[0].store(key, c)
+      @f[0].store(elem, c)
       end
     end
     k = 1
     while !(@f[k-1].empty?)
-      puts k
-      @c[k] = Hash.new
+      @c[k] = Array.new
       @c[k] = candidate_gen(@f[k-1], k)
       @f[k] = Hash.new
-      @c[k].each do |key, value|
-        c = count(key)
+      @c[k].each do |elem|
+        c = count(elem)
         sup = support(c)
         if sup >= @minsup
-          @f[k].store(key, c)
+          @f[k].store(elem, c)
         end
       end
       k += 1
     end
     @c.pop
     @f.pop
-    pp @f
+    @f
   end
 
-  # Generates frequent itemsets
+  # Generates candidate itemsets from frequent itemsets found in previous step
   def candidate_gen(frequent, k)
-    @c[k] = Hash.new
+    @c[k] = Array.new
     frequent.each_key do |f1|
       frequent.each_key do |f2|
         if (f1[0..-2].eql? f2[0..-2]) && (f1.last < f2.last)
           candidate = (f1 | f2).sort
-          @c[k].store(candidate, 0)
+          @c[k].push(candidate)
           if !(candidate.combination(k).to_a - frequent.keys).empty?
             @c[k].delete(candidate)
           end
@@ -76,14 +75,3 @@ class Apriori
     @c[k]
   end
 end
-
-apriori = Apriori.new([
-  ["Beef", "Chicken", "Milk"],
-  ["Beef", "Cheese"],
-  ["Cheese", "Boots"],
-  ["Beef", "Chicken", "Cheese"],
-  ["Beef", "Chicken", "Clothes", "Cheese", "Milk"],
-  ["Chicken", "Clothes", "Milk"],
-  ["Chicken", "Milk", "Clothes"]
-], 0.3)
-apriori.frequent

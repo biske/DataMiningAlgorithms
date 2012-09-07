@@ -29,14 +29,14 @@ describe Apriori do
   describe "#candidate-gen" do
     it "given f[1] it should return c[2] itemsets" do
       f1 = {["Beef"]=>4, ["Cheese"]=>4, ["Chicken"]=>5, ["Clothes"]=>3, ["Milk"]=>4}
-      c2 = {["Beef", "Cheese"] => 0,["Beef", "Chicken"] => 0, ["Beef", "Clothes"] => 0, ["Beef", "Milk"] => 0,
-            ["Cheese", "Chicken"] => 0, ["Cheese", "Clothes"] => 0, ["Cheese", "Milk"] => 0, ["Chicken", "Clothes"] => 0,
-            ["Chicken", "Milk"] => 0, ["Clothes", "Milk"] => 0}
+      c2 = [["Beef", "Cheese"], ["Beef", "Chicken"], ["Beef", "Clothes"], ["Beef", "Milk"],
+            ["Cheese", "Chicken"], ["Cheese", "Clothes"], ["Cheese", "Milk"], ["Chicken", "Clothes"],
+            ["Chicken", "Milk"], ["Clothes", "Milk"]]
       @apriori.candidate_gen(f1, 1).should eq(c2)
     end
     it "given f[2] it should return c[2] itemsets" do
       f2 = {["Beef", "Cheese"] => 3,["Beef", "Chicken"] => 3, ["Chicken", "Clothes"] => 3, ["Chicken", "Milk"] => 4, ["Clothes", "Milk"] => 3}
-      c3 = {["Chicken", "Clothes", "Milk"] => 0}
+      c3 = [["Chicken", "Clothes", "Milk"]]
       @apriori.candidate_gen(f2, 2).should eq(c3)
     end
   end
