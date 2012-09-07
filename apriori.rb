@@ -1,5 +1,3 @@
-require 'pp'
-
 class Apriori
   def initialize(transactions, minsup)
     @transactions = transactions
