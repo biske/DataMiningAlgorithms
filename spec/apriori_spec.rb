@@ -1,4 +1,4 @@
-require_relative '../apriori.rb'
+require_relative '../lib/apriori.rb'
 
 describe Apriori do
   before :all do
@@ -9,8 +9,9 @@ describe Apriori do
                     ["Beef", "Chicken", "Clothes", "Cheese", "Milk"],
                     ["Chicken", "Clothes", "Milk"],
                     ["Chicken", "Milk", "Clothes"]]
-    minsup = 0.3                    
-    @apriori = Apriori.new transactions, minsup                    
+    minsup = 0.3
+    minconf = 0.8
+    @apriori = Apriori.new transactions, minsup, minconf                    
   end
   
   describe "#frequent" do
@@ -38,6 +39,15 @@ describe Apriori do
       f2 = {["Beef", "Cheese"] => 3,["Beef", "Chicken"] => 3, ["Chicken", "Clothes"] => 3, ["Chicken", "Milk"] => 4, ["Clothes", "Milk"] => 3}
       c3 = [["Chicken", "Clothes", "Milk"]]
       @apriori.candidate_gen(f2, 2).should eq(c3)
+    end
+  end
+  
+  describe "#ap_gen_rules" do
+    it "given frequent itemset it should return association rules" do
+      h3 = {{["Chicken", "Clothes"] => ["Milk"]} => [3/7, 3/3],
+            {["Clothes", "Milk"] => ["Chicken"]} => [3/7, 3/3],
+            {["Clothes"] => ["Milk", "Chicken"]} => [3/7, 3/3]}
+      @apriori.ap_gen_rules(1, 1).should eq(h3)
     end
   end
 end

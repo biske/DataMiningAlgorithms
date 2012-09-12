@@ -1,7 +1,8 @@
 class Apriori
-  def initialize(transactions, minsup)
+  def initialize(transactions, minsup, minconf)
     @transactions = transactions
     @minsup = minsup
+    @minconf = minconf
     @c = Array.new
     @f = Array.new
   end
@@ -22,6 +23,16 @@ class Apriori
     count.to_f/@transactions.size.to_f
   end
 
+  # Association rule generation
+  def genRules
+    # not yet implemented
+  end
+  
+  # Recursive method for generating association rule
+  def ap_gen_rules(k, m)
+    #not yet implemented  
+  end
+  
   # Apriori algorithm for generating frequent itemsets.
   def frequent
     @c[0] = Array.new
